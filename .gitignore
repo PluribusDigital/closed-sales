@@ -15,3 +15,20 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Vagrant & Docker
+.cache/
+.docker/
+.vagrant/
+
+# Shell
+.bash_history
+.bash_profile
+.profile
+
+# Visual Studio Files
+*.suo
+*.sln
+
+# Dont store credentials
+.env

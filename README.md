@@ -1,5 +1,3 @@
-== README
-
 ## Dependencies
 
 Foundation
@@ -8,9 +6,13 @@ Foundation
 
 ## Front end Development
 
-View app at http://localhost:3000/app/build/
+```shell
+vagrant up
+vagrant ssh
+./run-www.sh
+```
 
-Start Foundation build process by going into `/public/app` and running `npm start`
+Changes made to the `public/app` directory should automatically be detected and presented on a browser refresh
 
 ## Process
 
