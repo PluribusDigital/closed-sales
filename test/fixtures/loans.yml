@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sale_id: MyString
+  site_name: MyString
+  date_sold: 2016-03-10
+  loan_type: MyString
+  quality: MyString
+  number_of_loans: 1
+  book_value: 1
+  sales_price: 1
+  winning_bidder: MyString
+  address: MyString
+
+two:
+  sale_id: MyString
+  site_name: MyString
+  date_sold: 2016-03-10
+  loan_type: MyString
+  quality: MyString
+  number_of_loans: 1
+  book_value: 1
+  sales_price: 1
+  winning_bidder: MyString
+  address: MyString
