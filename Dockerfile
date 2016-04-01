@@ -21,6 +21,9 @@ COPY ./public/app/package.json $HOME/
 # Add the server-side dependencies
 RUN npm install
 
+# For debugging
+RUN npm install gulp --global
+
 # Copy over the data
 COPY ./data $HOME/api/
 

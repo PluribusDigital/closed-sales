@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" ng-app="closedSales">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Closed Sales Prototype</title>
@@ -9,38 +9,27 @@
     <script src="./assets/js/templates.js"></script>
     <script src="./assets/js/routes.js"></script>
     <script src="./assets/js/app.js"></script>
-  </head>
-  <body>
-    <!-- NAV -->
-    <div class="menu-group primary">
-    <div class="menu-group-left">
-    <ul class="menu-bar primary">
-    <li><a><strong>Closed Sales Prototype</strong></a></li>
-    </ul>
-    </div>
-    <div class="menu-group-right">
-    <ul class="primary menu-bar">
-    <li><a><strong>by <img src="./assets/img/STSI_white_200x65.png" width="100" height="33"></strong></a></li>
-    </ul>
-    </div>
-    </div>
-
+</head>
+<body>
     <div class="grid-frame vertical">
-      <div class="menu-group-primary" style="padding: 0;">
-        <div class="menu-group-left">
-          <ul class="primary menu-bar">
-            
-          </ul>
+        <div>
+            <!-- NAV -->
+            <div class="menu-group primary">
+                <div class="menu-group-left">
+                    <ul class="menu-bar primary">
+                        <li><a href="/"><strong>Closed Sales Prototype</strong></a></li>
+                    </ul>
+                </div>
+                <div class="menu-group-right">
+                    <ul class="primary menu-bar">
+                        <li><a href="http://www.stsiinc.com/" target="_blank"><strong>by
+                            <img src="./assets/img/STSI_white_200x65.png" width="100" height="33"></strong></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="menu-group-right">
-          <ul class="primary menu-bar">
-            
-          </ul>
+        <div ui-view class="grid-block">
         </div>
-      </div>
-
-      <div ui-view class="grid-content">
-      </div>
     </div>
-  </body>
+</body>
 </html>

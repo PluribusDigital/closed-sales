@@ -40,11 +40,13 @@ var paths = {
     'bower_components/angular-ui-router/release/angular-ui-router.js',
     'bower_components/foundation-apps/js/vendor/**/*.js',
     'bower_components/foundation-apps/js/angular/**/*.js',
+    'bower_components/angular-bootstrap/ui-bootstrap.js',
+    'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
     '!bower_components/foundation-apps/js/angular/app.js'
   ],
   // These files are for your app's JavaScript
   appJS: [
-    'client/assets/js/app.js'
+    './client/assets/js/**/*'
   ]
 }
 
@@ -63,6 +65,15 @@ gulp.task('copy', function() {
   })
     .pipe(gulp.dest('./build'))
   ;
+});
+
+// Copies everything in the api folder
+gulp.task('copy:api', function () {
+    return gulp.src('./api/**/*.*', {
+        base: './api/'
+    })
+      .pipe(gulp.dest('./build/api'))
+    ;
 });
 
 // Copies your app's page templates and generates URLs for them
@@ -111,6 +122,7 @@ gulp.task('sass', function () {
       browsers: ['last 2 versions', 'ie 10']
     }))
     .pipe(minifyCss)
+    //.pipe($.concat('bower_components/angular-bootstrap/ui-bootstrap-csp.css'))
     .pipe(gulp.dest('./build/assets/css/'))
   ;
 });
@@ -146,7 +158,7 @@ gulp.task('uglify:app', function() {
 
 // Starts a test server, which you can view at http://localhost
 gulp.task('server', ['build'], function() {
-    gulp.src(['./build', './api'])
+    gulp.src(['./build'])
     .pipe($.webserver({
       host: '0.0.0.0',
       fallback: 'index.html'
@@ -156,7 +168,7 @@ gulp.task('server', ['build'], function() {
 
 // Builds your entire app once, without starting a server
 gulp.task('build', function(cb) {
-  sequence('clean', ['copy', 'copy:foundation', 'sass', 'uglify'], 'copy:templates', cb);
+  sequence('clean', ['copy', 'copy:api', 'copy:foundation', 'sass', 'uglify'], 'copy:templates', cb);
 });
 
 // Default task: builds your app, starts a server, and recompiles assets when they change

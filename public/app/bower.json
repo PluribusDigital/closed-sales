@@ -23,6 +23,7 @@
     "tests"
   ],
   "dependencies": {
-    "foundation-apps": "~1.2.0"
+    "foundation-apps": "~1.2.0",
+	"angular-bootstrap": "^1.2.5"
   }
 }
