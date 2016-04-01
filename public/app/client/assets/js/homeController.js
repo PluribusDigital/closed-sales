@@ -4,12 +4,12 @@
         $scope.columns = [
             { 'name': 'sale_id', 'title': 'Sale Id' },
             { 'name': 'site_name', 'title': 'Site' },
-            { 'name': 'date_sold', 'title': 'Date Sold' },
+            { 'name': 'date_sold', 'title': 'Date Sold', "align": 'right' },
             { 'name': 'loan_type', 'title': 'Loan Type' },
             { 'name': 'quality', 'title': 'Quality' },
-            { 'name': 'number_of_loans', 'title': 'No. of Loans' },
-            { 'name': 'book_value', 'title': 'Book Value' },
-            { 'name': 'sales_price', 'title': 'Sales Price' },
+            { 'name': 'number_of_loans', 'title': 'No. of Loans', "align": 'right' },
+            { 'name': 'book_value', 'title': 'Book Value', "align": 'right' },
+            { 'name': 'sales_price', 'title': 'Sales Price', "align": 'right' },
             { 'name': 'winning_bidder', 'title': 'Winning Bidder' },
             { 'name': 'address', 'title': 'Address' }
         ]
@@ -49,7 +49,7 @@
         $scope.offset = 0;
         $scope.lastShown = 0;
 
-        $scope.orderBy = 'sale_id';
+        $scope.orderBy = 'date_sold';
 
         $scope.applyFilter = function () {
             // Create $scope.filtered and then calculate $scope.totalItems, no racing!
@@ -75,6 +75,10 @@
 
         $scope.filterText = function (arr) {
             return filterFilter(arr, $scope.searchText);
+        }
+
+        $scope.cellAlign = function (column) {
+            return ("align" in column) ? column.align : "left";
         }
 
         /************************************************************************************************

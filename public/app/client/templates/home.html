@@ -47,38 +47,15 @@ controller: HomeController
             </thead>
             <tbody>
                 <tr ng-repeat="row in (filtered | orderBy:orderBy | startFrom:offset | limitTo:pageSize)">
-                    <td ng-repeat="col in columns" ng-switch="col['name']">
-                        <span ng-switch-when="title">
-                            <a href="{{row.view}}">
-                                <span class="h4">{{row.title}}</span>
-                            </a>
-                            <br />
-                            <small ng-repeat="link in row.links">&nbsp;<a ng-href="{{link.href}}">{{link.title}}</a>&nbsp;
-                            </small>
+                    <td ng-repeat="col in columns" ng-switch="col['name']" align="{{cellAlign(col)}}">
+                        <span ng-switch-when="date_sold">
+                            <span>{{row['date_sold'] | date: 'M/d/yyyy'}}</span>
                         </span>
-                        <span ng-switch-when="common">
-                            <a ng-repeat="w in row['common']" ng-href="rank/{{w}}?field=lemma">{{w}}<br />
-                            </a>
+                        <span ng-switch-when="book_value">
+                            <span>{{row['book_value'] | currency:"$":0}}</span>
                         </span>
-                        <span ng-switch-when="score">
-                            <small ng-if="row['score'] > 0.1" class="glyphicon glyphicon-star"></small>
-                            <small ng-if="row['score'] > 1" class="glyphicon glyphicon-star"></small>
-                            <small ng-if="row['score'] > 10" class="glyphicon glyphicon-star"></small>
-                        </span>
-                        <span ng-switch-when="distance">
-                            <span>{{row['distance'] * 100  | number:2}}%</span>
-                            <small ng-if="row['distance'] > 0.15" class="glyphicon glyphicon-star"></small>
-                            <small ng-if="row['distance'] > 0.3" class="glyphicon glyphicon-star"></small>
-                            <small ng-if="row['distance'] > 0.45" class="glyphicon glyphicon-star"></small>
-                        </span>
-                        <span ng-switch-when="token">
-                            <a ng-href="rank/{{row['token']}}?field=token">{{row['token']}}</a>
-                        </span>
-                        <span ng-switch-when="lemma">
-                            <a ng-href="rank/{{row['lemma']}}?field=lemma">{{row['lemma']}}</a>
-                        </span>
-                        <span ng-switch-when="stem">
-                            <a ng-href="rank/{{row['stem']}}?field=stem">{{row['stem']}}</a>
+                        <span ng-switch-when="sales_price">
+                            <span>{{row['sales_price'] | currency:"$":0}}</span>
                         </span>
                         <span ng-switch-default>{{row[col['name']]}}</span>
                     </td>
