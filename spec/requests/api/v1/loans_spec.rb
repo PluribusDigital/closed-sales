@@ -5,7 +5,7 @@ RSpec.describe "Loans API" do
   before :each do 
     Loan.create(sale_id: "93F11",site_name: "Dallas Field Branch",date_sold: nil,loan_type: "RE Commercial",quality: "Performing",number_of_loans: 42,book_value: 0,sales_price: 0,winning_bidder: "Army National Bank  ",address: "300 KansasFt. Leavenworth, KS 66027")
     Loan.create(sale_id: "93D23", site_name: "Dallas Field Branch", date_sold: nil, loan_type: "RE Commercial", quality: "Non-Performing", number_of_loans: 2, book_value: 0, sales_price: 0, winning_bidder: "KCL Pacific Corporation  ", address: "136 East South TempleSalt Lake City, UT 84111")
-    Loan.create(sale_id: "93D24",site_name: "Dallas Field Branch",date_sold: nil,loan_type: "Other",quality: "Performing",number_of_loans: 11,book_value: 0,sales_price: 0,winning_bidder: "Bank Midwest, NA  ",address: "1111 Main St, Suite 1600Kansas City, MO 64105")
+    Loan.create(sale_id: "93D24",site_name: "Dallas Field Branch",date_sold: nil,loan_type: "Other",quality: "Performing",number_of_loans: 11,book_value: 0,sales_price: 0,winning_bidder: "Bank Midwest, 84111 NA ",address: "1111 Main St, Suite 1600Kansas City, MO 64105")
   end
 
   describe "index" do 
@@ -87,20 +87,51 @@ RSpec.describe "Loans API" do
 
     describe "filter" do
 
-      it "should match a substring on a single field" 
-        # /api/v1/loans?filter[string][quality]=Perfo
-      it "should match a substring across multiple fields (OR)"
-        # /api/v1/loans?filter[string][sale_id,site_name,loan_type,quality,winning_bidder,address]=Perfo
-      it "should match a string exactly on a single field"
-        # /api/v1/loans?filter[exact][quality]=Performing 
-      it "should match a range"
-        # /api/v1/loans?filter[range][book_value]=1000,5000   
-        
+      it "should match a substring on a single field (case insensitive)" do 
+        get "/api/v1/loans.json?filter[string][winning_bidder]=BANK"
+        expect(json["data"].length).to eq 2
+      end
+
+      it "should match a substring across multiple fields (OR)" do 
+        get "/api/v1/loans.json?filter[string][winning_bidder,address]=84111"
+        expect(json["data"].length).to eq 2
+      end
+
+      it "should match a string exactly on a single field" do 
+        get "/api/v1/loans.json?filter[exact][quality]=Performing"
+        expect(json["data"].length).to eq 2
+      end
+
+      it "should match a range" do 
+        get "/api/v1/loans.json?filter[range][number_of_loans]=0,20"
+        expect(json["data"].length).to eq 2
+      end
+
+      it "should match an alternate range" do 
+        get "/api/v1/loans.json?filter[range][number_of_loans]=8,20"
+        expect(json["data"].length).to eq 1
+      end
+
+      it "should perform AND search for multiple filters" do 
+        get "/api/v1/loans.json?filter[range][number_of_loans]=0,20&filter[exact][quality]=Performing"
+        expect(json["data"].length).to eq 1
+      end
+
     end
 
     describe "schema metadata" do 
 
-      it "should provide schema for endpoint"
+      it "should list schemas" do 
+        get "/api/v1/schemas" 
+        expect(json["data"][0]["attributes"]["endpoint"]).to eq "loans"
+      end
+
+      it "should provide schema for endpoint" do 
+        get "/api/v1/schemas/loans" do 
+          expect(json["data"]["type"]).to eq "schema"
+          expect(json["data"]["attributes"]["fields"]).to be_present
+        end
+      end
 
     end
 

@@ -15,6 +15,36 @@ class Api::V1::LoansController < ApplicationController
       sort = params["sort"].split(",").map{|i| i[0]=="-" ? {i[1..-1].to_sym => :desc} : {i.to_sym => :asc} }
       loans = loans.order(sort)
     end
+    # String Filter
+    if params["filter"] && params["filter"]["string"]
+      filter_fields = params["filter"]["string"].keys.first.split(',')
+      filter_string = params["filter"]["string"].values.first.downcase
+      subclauses, clause_params = [], []
+      filter_fields.each do |field|
+        # SQL Injection safeguard
+        raise "invalid column supplied for filter" unless Loan.column_names.include? field
+        subclauses << "LOWER( #{field} ) LIKE ?"
+        clause_params << "%#{filter_string.downcase}%"
+      end
+      clause = [subclauses.join(" OR ")] + clause_params
+      loans = loans.where(clause)
+    end
+    # Exact Filter
+    if params["filter"] && params["filter"]["exact"]
+      filter_field = params["filter"]["exact"].keys.first
+      filter_string = params["filter"]["exact"].values.first
+      # SQL Injection safeguard
+      raise "invalid column supplied for filter" unless Loan.column_names.include? filter_field
+      loans = loans.where(filter_field => filter_string)
+    end
+    # Range Filter
+    if params["filter"] && params["filter"]["range"]
+      filter_field = params["filter"]["range"].keys.first
+      filter_range = params["filter"]["range"].values.first.split(",")
+      field_type = Loan.columns_hash[filter_field].type
+      filter_range = filter_range.map{|r|r.to_i} if field_type == :integer
+      loans = loans.where(filter_field => filter_range[0]..filter_range[1])
+    end
     # Pagination
     if params[:page]
       meta.page_number = params[:page][:number].to_i
