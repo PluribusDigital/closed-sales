@@ -51,6 +51,59 @@ RSpec.describe "Loans API" do
       
     end
 
+    describe "sort" do 
+
+      it "should sort by a single text column" do 
+        get "/api/v1/loans.json?sort=loan_type"
+        ids = json["data"].map{|i|i["attributes"]["sale_id"]}
+        expect(ids).to eq ['93D24','93F11','93D23']
+      end
+
+      it "should sort by a single numeric column" do 
+        get "/api/v1/loans.json?sort=number_of_loans"
+        ids = json["data"].map{|i|i["attributes"]["sale_id"]}
+        expect(ids).to eq ['93D23','93D24','93F11']
+      end
+
+      it "should sort by multiple columns" do 
+        get "/api/v1/loans.json?sort=loan_type,number_of_loans"
+        ids = json["data"].map{|i|i["attributes"]["sale_id"]}
+        expect(ids).to eq ['93D24','93D23','93F11']
+      end
+
+      it "should sort descending when field is preceded by minus (-)" do 
+        get "/api/v1/loans.json?sort=-number_of_loans"
+        ids = json["data"].map{|i|i["attributes"]["sale_id"]}
+        expect(ids).to eq ['93F11','93D24','93D23']
+      end
+
+      it "should sort multiple columns, one descending" do 
+        get "/api/v1/loans.json?sort=loan_type,-number_of_loans"
+        ids = json["data"].map{|i|i["attributes"]["sale_id"]}
+        expect(ids).to eq ['93D24','93F11','93D23']
+      end
+
+    end
+
+    describe "filter" do
+
+      it "should match a substring on a single field" 
+        # /api/v1/loans?filter[string][quality]=Perfo
+      it "should match a substring across multiple fields (OR)"
+        # /api/v1/loans?filter[string][sale_id,site_name,loan_type,quality,winning_bidder,address]=Perfo
+      it "should match a string exactly on a single field"
+        # /api/v1/loans?filter[exact][quality]=Performing 
+      it "should match a range"
+        # /api/v1/loans?filter[range][book_value]=1000,5000   
+        
+    end
+
+    describe "schema metadata" do 
+
+      it "should provide schema for endpoint"
+
+    end
+
   end
 
 end

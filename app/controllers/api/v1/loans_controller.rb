@@ -6,10 +6,15 @@ class Api::V1::LoansController < ApplicationController
     links = OpenStruct.new
     # Fields param
     if params["fields"] && params["fields"]["loan"] 
-      fields = params["fields"]["loan"].split(",").map{|f|f.to_sym}
-      fields << "id"
+      fields = params["fields"]["loan"].split(",").map{|f|f.to_sym} + ['id']
     end 
     loans = loans.select(fields) if fields
+    # Sort 
+    if params["sort"]
+      # ternary to handle descending sort preceded by minus "sort=-field_name"
+      sort = params["sort"].split(",").map{|i| i[0]=="-" ? {i[1..-1].to_sym => :desc} : {i.to_sym => :asc} }
+      loans = loans.order(sort)
+    end
     # Pagination
     if params[:page]
       meta.page_number = params[:page][:number].to_i
