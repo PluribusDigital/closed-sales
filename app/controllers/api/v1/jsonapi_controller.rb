@@ -1,5 +1,7 @@
 class Api::V1::JSONAPIController < ApplicationController
 
+  require 'csv'
+
   def index
     results = model.all
     meta   = OpenStruct.new
@@ -44,12 +46,17 @@ class Api::V1::JSONAPIController < ApplicationController
       meta.total_pages = (meta.total_count / meta.page_size.to_f).ceil
       links.merge! pagination_links(meta.page_number,meta.page_size,meta.total_pages)
     end
+    links.merge!({csv: path_to_csv(params.dup)})
     data = results.map{|r| {
       id: r.id, 
-      attributes: r.attributes.delete_if{|k,v|["id","created_at","updated_at"].include? k},
+      attributes: r.attributes.delete_if{|k,v| %w(id created_at updated_at).include? k},
       links: { self: send("api_v1_#{path_base}_path",r) } 
     }}
-    render json: {meta: meta.to_h, links: links, data: data}
+    respond_to do |format|
+      format.csv { render text: results_to_csv(model,results) }
+      format.json { render json: {meta: meta.to_h, links: links, data: data} }
+    end
+    # render json: 
   end
 
 private
@@ -94,6 +101,22 @@ private
     links[:next]  = pagination_link(number+1,size) if number < total
     links[:last]  = pagination_link(total,size)
     return links
+  end
+
+  def results_to_csv(model,results)
+    cols = model.column_names.delete_if{|i| %w(id created_at updated_at).include? i}
+    CSV.generate() do |csv|
+      csv << cols
+      results.each do |result|
+        csv << result.attributes.values_at(*cols)
+      end
+    end
+  end
+
+  def path_to_csv(params)
+    params.delete_if{|k,v|%w(action controller format page).include? k}
+    return URI.unescape api_v1_loans_path(params.merge({format:'csv'}))
+
   end
 
 end
