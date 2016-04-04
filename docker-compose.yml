@@ -8,7 +8,6 @@ postgres:
 api:
   env_file: /home/vagrant/.env
   build: .
-  command: bundle exec rails s -p 3000 -b '0.0.0.0'
   ports:
     - "8080:3000"
   links:
