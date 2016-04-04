@@ -4,35 +4,34 @@ url: /
 controller: HomeController
 ---
 
-<div ng-show="loading">
-    <h4>Retrieving data</h4>
-</div>
-
-<div ng-hide="loading" class="grid-content">
+<div class="grid-content">
     <div class="grid-block">
         <div class="large-3 grid-block">
             <input type="text" 
                 ng-model="searchText" 
+                ng-model-options="{ debounce: 500 }"
                 placeholder="enter search text"
                 style="margin: 1rem 0 1rem 0;" />
         </div>
         <div class="grid-block align-center">
-            <div uib-pagination total-items="totalItems"
-                items-per-page="pageSize"
-                ng-model="currentPage"
+            <div uib-pagination total-items="pageInfo.total_count"
+                items-per-page="pageInfo.page_size"
+                ng-model="pageInfo.page_number"
                 max-size="5"
                 boundary-links="true"
                 ng-change="pageChanged()">
             </div>
         </div>
         <div class="grid-block align-right shrink">
-            <span class="pagination">Showing {{offset + 1}} to {{lastShown}} of {{totalItems}} entries</span>
+            <span class="pagination">Showing {{offset}} to {{lastShown}} of {{pageInfo.total_count}} entries</span>
         </div>
-        <!--<div>
-            </div>-->
     </div>
 
     <div class="grid-block">
+        <div ng-show="loading" style="position: absolute; z-index: 3; top: 50%; left: 50%; border: 1px solid #ddd;">
+            <img src="spinner.gif" width="128" height="128" >
+        </div>
+
         <table role="grid" style="overflow-x: auto;">
             <thead>
                 <tr>
@@ -46,7 +45,7 @@ controller: HomeController
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in (filtered | orderBy:orderBy | startFrom:offset | limitTo:pageSize)">
+                <tr ng-repeat="row in model">
                     <td ng-repeat="col in columns" ng-switch="col['name']" align="{{cellAlign(col)}}">
                         <span ng-switch-when="date_sold">
                             <span>{{row['date_sold'] | date: 'M/d/yyyy'}}</span>

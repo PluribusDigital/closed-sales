@@ -4,9 +4,18 @@
 angular.module('closedSales').factory('LoanProxyService',
     function ($http, $q) {
         var service = {
-            getAll: function () {
+            search: function (filter, page, sort) {
+                var options = {
+                    'params': {
+                        'filter[string][site_name,winning_bidder,loan_type,quality,address]': filter,
+                        'page[size]': '20',
+                        'page[number]': page,
+                        'sort': sort,
+                    }
+                };
+
                 var deferred = $q.defer();
-                $http.get(LOANS_API_BASE_URL, {}).then(function (response) {
+                $http.get(LOANS_API_BASE_URL, options).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
                     console.log('Error when calling loan endpoint');
