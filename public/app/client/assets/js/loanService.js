@@ -1,38 +1,20 @@
-﻿
+﻿LOANS_API_BASE_URL = 'http://localhost:8080/api/v1/loans'
+
 // This service fakes a connection to a server by using a timeout to fake an asynchronous call
 angular.module('closedSales').factory('LoanProxyService',
-    function ($http, $rootScope, $q) {
-        $rootScope.loanServiceData = null;
-
+    function ($http, $q) {
         var service = {
-            loadCache: function () {
+            getAll: function () {
                 var deferred = $q.defer();
-
-                $http.get('api/loans.json', {}).then(function (response) {
-                    $rootScope.loanServiceData = response.data;
+                $http.get(LOANS_API_BASE_URL, {}).then(function (response) {
                     deferred.resolve(response.data);
                 }, function (response) {
-                    console.log('error when calling loan endpoint');
+                    console.log('Error when calling loan endpoint');
                     console.log(response);
                     deferred.reject();
                 })
 
                 return deferred.promise;
-            },
-
-            getAll: function () {
-                if ($rootScope.loanServiceData == null) {
-                    return this.loadCache();
-                }
-                else {
-                    var deferred = $q.defer();
-
-                    $timeout(20).then(function () {
-                        deferred.resolve($rootScope.loanServiceData);
-                    });
-
-                    return deferred.promise;
-                }
             }
         };
 

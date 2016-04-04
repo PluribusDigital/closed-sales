@@ -1,0 +1,21 @@
+postgres:
+  env_file: /home/vagrant/.env
+  image: postgres
+  ports:
+  - "5432:5432"
+  volumes:
+   - /var/lib/postgresql/data:/var/lib/postgresql/data
+api:
+  env_file: /home/vagrant/.env
+  build: .
+  command: bundle exec rails s -p 3000 -b '0.0.0.0'
+  ports:
+    - "8080:3000"
+  links:
+    - postgres:db
+app:
+  build: ./public
+  ports:
+    - "8000:8000"
+  volumes:
+  - /home/vagrant/public/app/client:/wwwroot/client

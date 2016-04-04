@@ -23,15 +23,18 @@
         */
 
         $scope.onModelLoaded = function (data) {
-            $scope.model = data;
-            if ($scope.model == null) {
-                $scope.model = [];
-                return;
-            }
+            $scope.model = [];
+            $scope.loading = false;
 
-            if ($scope.model.length > 0) {
-                $scope.loading = false;
-            }
+            data.data.forEach(function (elem) {
+                var x = new Object();
+                x.id = elem.id;
+                Object.keys(elem.attributes).forEach(function (ak) {
+                    x[ak] = elem.attributes[ak];
+                });
+                $scope.model.push(x);
+            });
+
 
             // Initialize the pagination data
             $scope.applyFilter();
