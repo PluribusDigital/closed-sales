@@ -1,5 +1,5 @@
 ﻿angular.module('closedSales').controller("HomeController",
-    function ($scope, LoanProxyService, filterFilter) {
+    function ($scope, LoanProxyService) {
         $scope.filtered = $scope.model = []
         $scope.columns = [
             { 'name': 'sale_id', 'title': 'Sale Id' },
@@ -16,6 +16,12 @@
 
         /*id, created_at, updated_at */
 
+        $scope.searchText = '';
+        $scope.pageInfo = {'page_number': 1};
+        $scope.offset = 0;
+        $scope.lastShown = 0;
+        $scope.orderBy = 'date_sold';
+
         $scope.loading = true;
 
         /************************************************************************************************
@@ -23,47 +29,41 @@
         */
 
         $scope.onModelLoaded = function (data) {
-            $scope.model = data;
-            if ($scope.model == null) {
-                $scope.model = [];
-                return;
-            }
+            $scope.model = [];
+            $scope.loading = false;
 
-            if ($scope.model.length > 0) {
-                $scope.loading = false;
-            }
+            data.data.forEach(function (elem) {
+                var x = new Object();
+                x.id = elem.id;
+                Object.keys(elem.attributes).forEach(function (ak) {
+                    x[ak] = elem.attributes[ak];
+                });
+                $scope.model.push(x);
+            });
 
             // Initialize the pagination data
-            $scope.applyFilter();
+            $scope.pageInfo = data.meta;
+            $scope.offset = ((data.meta.page_number - 1) * data.meta.page_size) + 1;
+            $scope.lastShown = Math.min(data.meta.total_count, data.meta.page_number * data.meta.page_size);
         }
 
         /************************************************************************************************
-         * Table Members
+         * Pagination Members
          */
 
-        $scope.searchText = '';
+        $scope.refresh = function () {
+            $scope.loading = true;
 
-        $scope.totalItems = 0;
-        $scope.pageSize = 20
-        $scope.currentPage = 1;
-        $scope.offset = 0;
-        $scope.lastShown = 0;
-
-        $scope.orderBy = 'date_sold';
-
-        $scope.applyFilter = function () {
-            // Create $scope.filtered and then calculate $scope.totalItems, no racing!
-            var a = $scope.filterText($scope.model);
-
-            $scope.filtered = a;
-            $scope.totalItems = $scope.filtered.length;
-            $scope.currentPage = 1;
-            $scope.pageChanged();
+            LoanProxyService.search($scope.searchText,
+                $scope.pageInfo.page_number,
+                $scope.orderBy)
+                .then($scope.onModelLoaded);
         }
 
         $scope.pageChanged = function () {
             $scope.offset = ($scope.currentPage - 1) * $scope.pageSize
             $scope.lastShown = Math.min($scope.offset + $scope.pageSize + 1, $scope.totalItems);
+            $scope.refresh();
         };
 
         $scope.setOrder = function (orderBy) {
@@ -71,10 +71,7 @@
                 $scope.orderBy = '-' + orderBy;  // Reverse the sort
             else
                 $scope.orderBy = orderBy;
-        }
-
-        $scope.filterText = function (arr) {
-            return filterFilter(arr, $scope.searchText);
+            $scope.refresh();
         }
 
         $scope.cellAlign = function (column) {
@@ -85,8 +82,8 @@
          * Initialize
          */
         $scope.$watch('searchText', function (term) {
-            $scope.applyFilter();
+            $scope.refresh();
         });
 
-        LoanProxyService.getAll().then($scope.onModelLoaded);
+        $scope.refresh();
     });
