@@ -15,19 +15,19 @@
 ##### First-Time
 1. Set up the environment variables
 
-```shell
-cp .env.example .env
-```
+ ```shell
+ cp .env.example .env
+ ```
 
 2. Open `.env` in your favorite text editor and fill in the appropriate values
 3. Initialize the database
 
-```shell
-vagrant up
-vagrant ssh
-docker-compose up -d
-docker-compose run api rake db:create db:migrate db:seed
-```
+ ```shell
+ vagrant up
+ vagrant ssh
+ docker-compose up -d
+ docker-compose run api rake db:create db:migrate db:seed
+ ```
 
 ##### Every other time
 
