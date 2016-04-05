@@ -12,7 +12,6 @@ DOCKERRUN_FILE=Dockerrun.aws.json
 # Create new Elastic Beanstalk version
 EB_BUCKET=open-fda
 
-cd deploy/beanstalk
 # variable substitutions
 sed -e "s/<TAG>/$BUILD_TAG/" \
     -e "s/<ORG>/$ORG/" \
@@ -37,4 +36,3 @@ echo "deploying elasticbeanstalk application..."
 aws elasticbeanstalk update-environment --environment-name $EB_ENV \
     --version-label $BUILD_TAG --region us-east-1
 echo "elasticbeanstalk application deployed"
-cd ../..
