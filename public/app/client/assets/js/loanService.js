@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿LOANS_API_BASE_URL = 'http://localhost:8080/api/v1/loans.json'
-=======
-﻿LOANS_API_BASE_URL = '/api/v1/loans.json'
->>>>>>> ffb1c91f9cf6a3b23971d72550a9b3508536c011
+LOANS_API_BASE_URL = 'http://localhost:8080/api/v1/loans.json'
 
 // This service fakes a connection to a server by using a timeout to fake an asynchronous call
 angular.module('closedSales').factory('LoanProxyService',
@@ -11,7 +7,7 @@ angular.module('closedSales').factory('LoanProxyService',
             search: function (filter, page, sort) {
                 var options = {
                     'params': {
-                        'filter[string][site_name,winning_bidder,loan_type,quality,address]': filter,
+                        'filter[string][sale_id,site_name,winning_bidder,loan_type,quality,address]': filter,
                         'page[size]': '20',
                         'page[number]': page,
                         'sort': sort,
