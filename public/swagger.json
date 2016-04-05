@@ -1,0 +1,103 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Closed Sales Prototype API"
+    },
+    "paths": {
+        "/api/v1/loans.json": {
+            "get": {
+                "description": "List of closed loan sales.",
+                "parameters": [
+                    {
+                        "name": "page[size]",
+                        "in": "query",
+                        "description": "Number of results in each page",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page[number]",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "fields[loan]",
+                        "in": "query",
+                        "description": "Comma-delimited list of fields to include in response",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "filter[string][winning_bidder]",
+                        "in": "query",
+                        "description": "Substring search on winning_bidder field (can filter on any field name)",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "filter[range][number_of_loans]",
+                        "in": "query",
+                        "description": "Range filter on number_of_loans field accepting comma-delimited set of min,max (can filter on any numeric/date field)",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Loans"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/schemas.json": {
+            "get": {
+                "description": "List of API schemas.",
+                "tags": [
+                    "Schemas"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/schemas/loans": {
+            "get": {
+                "description": "Schema for Loans API endpoint.",
+                "tags": [
+                    "Schemas"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
