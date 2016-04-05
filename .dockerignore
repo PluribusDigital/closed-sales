@@ -1,0 +1,19 @@
+# Vagrant & Docker
+.cache/
+.docker/
+.vagrant/
+
+# Shell
+.bash_history
+.bash_profile
+.profile
+
+# byebug
+.byebug_history
+
+# Visual Studio Files
+*.suo
+*.sln
+
+# Dont store credentials
+.env

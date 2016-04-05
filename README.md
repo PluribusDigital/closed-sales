@@ -1,20 +1,47 @@
-## Dependencies
+## Prerequisites
 
-Foundation
-`npm install -g foundation-cli bower gulp`
-(see http://foundation.zurb.com/apps/getting-started.html)
+###### Rails Development
++ [Foundation](http://foundation.zurb.com/apps/getting-started.html)
 
-## Front end Development
+###### Front-end Development
++ [Vagrant](https://www.vagrantup.com/downloads.html)
+* [(optional) Update VirtualBox Guest Additions](https://github.com/dotless-de/vagrant-vbguest)
+  * `vagrant plugin install vagrant-vbguest`
+
+---
+
+## Front-end Development
+
+##### First-Time
+1. Set up the environment variables
+
+```shell
+cp .env.example .env
+```
+
+2. Open `.env` in your favorite text editor and fill in the appropriate values
+3. Initialize the database
 
 ```shell
 vagrant up
 vagrant ssh
-./run-www.sh
+docker-compose up -d
+docker-compose run api rake db:create db:migrate db:seed
 ```
 
-Changes made to the `public/app` directory should automatically be detected and presented on a browser refresh
+##### Every other time
 
-## Process
+```shell
+vagrant up
+vagrant ssh
+docker-compose up
+```
+
+Changes made to the `public/app/client` directory should automatically be detected and presented on a browser refresh
+
+---
+
+## The Process we Followed To Get to this Repo
 
 ### Setup Rails App
 
