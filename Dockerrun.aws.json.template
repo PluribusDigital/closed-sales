@@ -9,11 +9,11 @@
       "name": "<DOCKER_PROJECT>",
       "image": "<ORG>/<DOCKER_PROJECT>:<TAG>",
       "essential": true,
-      "memory": 1536,
+      "memory": 2000,
       "portMappings": [
         {
           "hostPort": 80,
-          "containerPort": 8080
+          "containerPort": 8000
         }
       ]
     }
