@@ -68,4 +68,13 @@ controller: HomeController
             </tbody>
         </table>
     </div>
+
+    <div class="grid-block align-center">
+        <form name="downloader" action="/api/v1/loans.csv" style="margin-top: 10px;">
+            <a href="#" class="button" onclick="downloader.submit()">Download as CSV</a>
+            <input type="hidden" name="filter[string][sale_id,site_name,winning_bidder,loan_type,quality,address]" value="{{searchText}}" />
+            <input type="hidden" name="page[size]" value="{{pageInfo.total_count}}" />
+            <input type="hidden" name="sort" value="{{orderBy}}" />
+        </form>
+    </div>
 </div>
