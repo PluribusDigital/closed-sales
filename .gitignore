@@ -26,6 +26,9 @@
 .bash_profile
 .profile
 
+# byebug
+.byebug_history
+
 # Visual Studio Files
 *.suo
 *.sln

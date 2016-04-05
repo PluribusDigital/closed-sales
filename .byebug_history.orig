@@ -1,8 +1,15 @@
 continue
+<<<<<<< HEAD
+api_v1_loans_path(params)
+params
+PATH
+path
+=======
 request.env['PATH_INFO']
 current_path
 path
 params
+>>>>>>> genericize
 continue
 path_base
 params
