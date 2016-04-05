@@ -4,11 +4,12 @@ machine:
   environment:
     DOCKER_PROJECT: closed-sales-web
     ORG: stsilabs
-    EB_ENV: closed-sales-demo
+    EB_ENV: closed-sales
 
 dependencies:
   override:
-    - echo "skipping dependencies temporarily"
+    # install aws command line tools for elasticbean stalk deployment
+    - pip install awscli
 test:
   override:
     - echo "skipping tests temporarily"
@@ -31,5 +32,5 @@ deployment:
     - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
     - docker push $ORG/$DOCKER_PROJECT:$BUILD_TAG
     # deploy to AWS elastic beanstalk environment
-    #- bash aws_deploy.sh $CIRCLE_BUILD_NUM $DOCKER_PROJECT $ORG $EB_ENV $SECRET_KEY_BASE:
-    #    timeout: 1800
+    - bash aws_deploy.sh $CIRCLE_BUILD_NUM $DOCKER_PROJECT $ORG $EB_ENV:
+        timeout: 1800

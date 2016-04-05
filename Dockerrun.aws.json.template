@@ -1,0 +1,21 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "authentication": {
+    "bucket": "open-fda",
+    "key": "dockercfg"
+  },
+  "containerDefinitions": [
+    {
+      "name": "<DOCKER_PROJECT>",
+      "image": "<ORG>/<DOCKER_PROJECT>:<TAG>",
+      "essential": true,
+      "memory": 1536,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ]
+    }
+  ]
+}
