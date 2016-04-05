@@ -1,6 +1,6 @@
 ﻿angular.module('closedSales').controller("HomeController",
     function ($scope, LoanProxyService) {
-        $scope.filtered = $scope.model = []
+        $scope.model = []
         $scope.columns = [
             { 'name': 'sale_id', 'title': 'Sale Id' },
             { 'name': 'site_name', 'title': 'Site' },
@@ -16,14 +16,14 @@
 
         /*id, created_at, updated_at */
 
-        $scope.searchText = '';
-        $scope.pageInfo = {'page_number': 1};
+        $scope.params = LoanProxyService.defaultParams();
+        $scope.downloadParams = LoanProxyService.buildDownloadParams($scope.params);
         $scope.offset = 0;
         $scope.lastShown = 0;
-        $scope.orderBy = 'date_sold';
 
         $scope.loading = true;
         $scope.showPagination = true;
+        $scope.showAdvancedSearch = false;
 
         /************************************************************************************************
         * Data Model Methods
@@ -43,17 +43,19 @@
             });
 
             // Initialize the pagination data
-            $scope.pageInfo = data.meta;
-            if (data.meta.total_count == 0) {
+            var p = $scope.params = data.params;
+            if (p.total_count == 0) {
                 $scope.offset = 0;
                 $scope.lastShown = 0;
                 $scope.showPagination = false;
             }
             else {
-                $scope.offset = ((data.meta.page_number - 1) * data.meta.page_size) + 1;
-                $scope.lastShown = Math.min(data.meta.total_count, data.meta.page_number * data.meta.page_size);
-                $scope.showPagination = data.meta.total_count > data.meta.page_size;
+                $scope.offset = ((p.page_number - 1) * p.page_size) + 1;
+                $scope.lastShown = Math.min(p.total_count, p.page_number * p.page_size);
+                $scope.showPagination = p.total_count > p.page_size;
             }
+
+            $scope.downloadParams = LoanProxyService.buildDownloadParams($scope.params);
         }
 
         /************************************************************************************************
@@ -62,24 +64,14 @@
 
         $scope.refresh = function () {
             $scope.loading = true;
-
-            LoanProxyService.search($scope.searchText,
-                $scope.pageInfo.page_number,
-                $scope.orderBy)
-                .then($scope.onModelLoaded);
+            LoanProxyService.search($scope.params).then($scope.onModelLoaded);
         }
 
-        $scope.pageChanged = function () {
-            $scope.offset = ($scope.currentPage - 1) * $scope.pageSize
-            $scope.lastShown = Math.min($scope.offset + $scope.pageSize + 1, $scope.totalItems);
-            $scope.refresh();
-        };
-
         $scope.setOrder = function (orderBy) {
-            if (orderBy === $scope.orderBy)
-                $scope.orderBy = '-' + orderBy;  // Reverse the sort
+            if (orderBy === $scope.params.order_by)
+                $scope.params.order_by = '-' + orderBy;  // Reverse the sort
             else
-                $scope.orderBy = orderBy;
+                $scope.params.order_by = orderBy;
             $scope.refresh();
         }
 
@@ -90,7 +82,7 @@
         /************************************************************************************************
          * Initialize
          */
-        $scope.$watch('searchText', function (term) {
+        $scope.$watch('params.search_text', function (term) {
             $scope.refresh();
         });
 

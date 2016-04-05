@@ -3,28 +3,98 @@ name: home
 url: /
 controller: HomeController
 ---
-
+ 
 <div class="grid-content">
     <div class="grid-block">
         <div class="large-3 grid-block">
             <input type="text" 
-                ng-model="searchText" 
+                ng-model="params.search_text" 
                 ng-model-options="{ debounce: 500 }"
                 placeholder="enter search text"
                 style="margin: 1rem 0 1rem 0;" />
         </div>
-        <div class="grid-block align-center">
-            <div uib-pagination total-items="pageInfo.total_count"
-                items-per-page="pageInfo.page_size"
-                ng-model="pageInfo.page_number"
-                max-size="5"
+        <div class="grid-block align-right v-align">
+            <a class="small button" style="margin: 0px;" ng-click="showAdvancedSearch = !showAdvancedSearch">
+                <img zf-iconic="" icon="cog" size="small" class="iconic-color-secondary">
+                <span>Advanced Search</span>
+            </a>
+        </div>
+    </div>
+    <div class="grid-block" ng-show="showAdvancedSearch">
+        <div class="small-12 medium-6 grid-content">
+            <label>Quality</label>
+            <select name="quality">
+                <option value="">Breakfast</option>
+                <option value="">Bacon Pancakes</option>
+                <option value="">Mountain Dew</option>
+                <option value="">Scrambled eggs with grilled zucchini, spinach, leeks, roasted tomatoes and mozzarella</option>
+            </select>
+        </div>
+        <div class="small-12 medium-6 grid-content">
+            <label>Loan Type</label>
+            <select name="loan_type">
+                <option value="">Breakfast</option>
+                <option value="">Bacon Pancakes</option>
+                <option value="">Mountain Dew</option>
+                <option value="">Scrambled eggs with grilled zucchini, spinach, leeks, roasted tomatoes and mozzarella</option>
+            </select>
+        </div>
+        <div class="grid-content">
+            <label>
+                Book Value Low
+                <span class="inline-label">
+                    <span class="form-label">$</span>
+                    <input type="number">
+                </span>
+            </label>
+            <label>
+                Book Value High
+                <span class="inline-label">
+                    <span class="form-label">$</span>
+                    <input type="number">
+                </span>
+            </label>
+        </div>
+        <div class="grid-content">
+            <label>
+                Sales Price Low
+                <span class="inline-label">
+                    <span class="form-label">$</span>
+                    <input type="number">
+                </span>
+            </label>
+            <label>
+                Sales Price High
+                <span class="inline-label">
+                    <span class="form-label">$</span>
+                    <input type="number">
+                </span>
+            </label>
+        </div>
+        <div class="grid-content">
+            <label>
+                Date Sold Low
+                <input type="date">
+            </label>
+            <label>
+                Date Sold High
+                <input type="date">
+            </label>
+        </div>
+    </div>
+    <div class="grid-block">
+        <div class="grid-block align-left">
+            <div uib-pagination total-items="params.total_count"
+                items-per-page="params.page_size"
+                ng-model="params.page_number"
+                max-size="10"
                 boundary-links="true"
-                ng-change="pageChanged()"
+                ng-change="refresh()"
                 ng-show="showPagination">
             </div>
         </div>
-        <div class="grid-block align-right shrink">
-            <span class="pagination">Showing {{offset}} to {{lastShown}} of {{pageInfo.total_count}} entries</span>
+        <div class="grid-block align-right shrink v-align">
+            <span>Showing {{offset}} to {{lastShown}} of {{params.total_count}} entries</span>
         </div>
     </div>
 
@@ -39,8 +109,8 @@ controller: HomeController
                     <th ng-repeat="col in columns">
                         <div ng-click="setOrder(col['name'])">
                             <span>{{ col['title'] }}</span>
-                            <span ng-if="col['name'] === orderBy">&#x2191</span>
-                            <span ng-if="'-' + col['name'] === orderBy">&#x2193</span>
+                            <span ng-if="col['name'] === params.order_by">&#x2191</span>
+                            <span ng-if="'-' + col['name'] === params.order_by">&#x2193</span>
                         </div>
                     </th>
                 </tr>
@@ -72,15 +142,11 @@ controller: HomeController
     <div class="grid-block align-center">
         <form name="csv" action="/api/v1/loans.csv" style="margin: 10px;">
             <a href="#" class="button" onclick="csv.submit()">Download as CSV</a>
-            <input type="hidden" name="filter[string][sale_id,site_name,winning_bidder,loan_type,quality,address]" value="{{searchText}}" />
-            <input type="hidden" name="page[size]" value="{{pageInfo.total_count}}" />
-            <input type="hidden" name="sort" value="{{orderBy}}" />
+            <input type="hidden" ng-repeat="(key, value) in downloadParams" name="{{key}}" value="{{value}}"  />
         </form>
         <form name="json" action="/api/v1/loans.json" style="margin: 10px;">
             <a href="#" class="button" onclick="json.submit()">Download as JSON</a>
-            <input type="hidden" name="filter[string][sale_id,site_name,winning_bidder,loan_type,quality,address]" value="{{searchText}}" />
-            <input type="hidden" name="page[size]" value="{{pageInfo.total_count}}" />
-            <input type="hidden" name="sort" value="{{orderBy}}" />
+            <input type="hidden" ng-repeat="(key, value) in downloadParams" name="{{key}}" value="{{value}}"  />
         </form>
     </div>
 </div>

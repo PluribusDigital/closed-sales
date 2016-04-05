@@ -18,10 +18,6 @@ table td {
   width: 4rem;
 }
 
-span.pagination {
-  margin: 2rem 0 0 0;
-}
-
 /* The out of the box Foundation does _not_ match the demo */
 
 .grid-block {
@@ -36,7 +32,7 @@ span.pagination {
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 20px 0;
+  margin: .5rem 0;
   border-radius: 4px;
 }
 .pagination > li {

@@ -4,19 +4,30 @@ LOANS_API_BASE_URL = 'http://localhost:8080/api/v1/loans.json'
 angular.module('closedSales').factory('LoanProxyService',
     function ($http, $q) {
         var service = {
-            search: function (filter, page, sort) {
+            defaultParams: function() {
+                return {
+                    'page_size': 50,
+                    'page_number': 1,
+                    'search_text': 'Kans',
+                    'order_by': 'date_sold'
+                };
+            },
+
+            search: function (params) {
                 var options = {
-                    'params': {
-                        'filter[string][sale_id,site_name,winning_bidder,loan_type,quality,address]': filter,
-                        'page[size]': '20',
-                        'page[number]': page,
-                        'sort': sort,
-                    }
+                    'params': this.buildPagedParams(params)
                 };
 
                 var deferred = $q.defer();
                 $http.get(LOANS_API_BASE_URL, options).then(function (response) {
-                    deferred.resolve(response.data);
+                    var x = {
+                        'data': response.data.data,
+                        'params': angular.extend({}, params, response.data.meta)
+                    };
+
+                    console.log(x.params);
+
+                    deferred.resolve(x);
                 }, function (response) {
                     console.log('Error when calling loan endpoint');
                     console.log(response);
@@ -24,6 +35,23 @@ angular.module('closedSales').factory('LoanProxyService',
                 })
 
                 return deferred.promise;
+            },
+
+            buildPagedParams: function (p) {
+                return {
+                    'filter[string][sale_id,site_name,winning_bidder,address]': p.search_text,
+                    'page[size]': p.page_size,
+                    'page[number]': p.page_number,
+                    'sort': p.order_by
+                };
+            },
+
+            buildDownloadParams: function (p) {
+                return {
+                    'filter[string][sale_id,site_name,winning_bidder,address]': p.search_text,
+                    'page[size]': p.total_count,
+                    'sort': p.order_by
+                };
             }
         };
 
