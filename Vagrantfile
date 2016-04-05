@@ -33,4 +33,10 @@ end
 
   # Install docker
   config.vm.provision "docker"
+
+  # Install docker-compose
+  config.vm.provision "docker-compose", type: "shell", inline: <<-EOC
+    curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  	chmod +x /usr/local/bin/docker-compose
+  EOC
 end

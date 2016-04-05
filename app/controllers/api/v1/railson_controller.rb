@@ -2,7 +2,7 @@ class Api::V1::RailsonController < ApplicationController
 
   require 'csv'
 
-  def index
+  def index 
     @model = parse_path(request.env['PATH_INFO'])
     results = @model.all
     meta   = OpenStruct.new
