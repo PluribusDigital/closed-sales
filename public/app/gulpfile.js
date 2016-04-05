@@ -4,6 +4,7 @@
 
 // 1. LIBRARIES
 // - - - - - - - - - - - - - - -
+require('es6-promise').polyfill();
 
 var $        = require('gulp-load-plugins')();
 var argv     = require('yargs').argv;

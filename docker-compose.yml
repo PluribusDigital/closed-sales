@@ -12,9 +12,5 @@ api:
     - "8080:3000"
   links:
     - postgres:db
-app:
-  build: ./public
-  ports:
-    - "8000:8000"
   volumes:
-  - /home/vagrant/public/app/client:/wwwroot/client
+  - /home/vagrant/public/app/client:/usr/src/app/public/app/client

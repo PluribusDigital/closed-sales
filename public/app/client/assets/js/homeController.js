@@ -23,6 +23,7 @@
         $scope.orderBy = 'date_sold';
 
         $scope.loading = true;
+        $scope.showPagination = true;
 
         /************************************************************************************************
         * Data Model Methods
@@ -43,8 +44,16 @@
 
             // Initialize the pagination data
             $scope.pageInfo = data.meta;
-            $scope.offset = ((data.meta.page_number - 1) * data.meta.page_size) + 1;
-            $scope.lastShown = Math.min(data.meta.total_count, data.meta.page_number * data.meta.page_size);
+            if (data.meta.total_count == 0) {
+                $scope.offset = 0;
+                $scope.lastShown = 0;
+                $scope.showPagination = false;
+            }
+            else {
+                $scope.offset = ((data.meta.page_number - 1) * data.meta.page_size) + 1;
+                $scope.lastShown = Math.min(data.meta.total_count, data.meta.page_number * data.meta.page_size);
+                $scope.showPagination = data.meta.total_count > data.meta.page_size;
+            }
         }
 
         /************************************************************************************************

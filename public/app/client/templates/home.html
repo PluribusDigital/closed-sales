@@ -19,7 +19,8 @@ controller: HomeController
                 ng-model="pageInfo.page_number"
                 max-size="5"
                 boundary-links="true"
-                ng-change="pageChanged()">
+                ng-change="pageChanged()"
+                ng-show="showPagination">
             </div>
         </div>
         <div class="grid-block align-right shrink">

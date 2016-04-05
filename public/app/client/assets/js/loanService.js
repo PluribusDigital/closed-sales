@@ -1,4 +1,4 @@
-﻿LOANS_API_BASE_URL = 'http://localhost:8080/api/v1/loans'
+﻿LOANS_API_BASE_URL = 'http://localhost:8080/api/v1/loans.json'
 
 // This service fakes a connection to a server by using a timeout to fake an asynchronous call
 angular.module('closedSales').factory('LoanProxyService',
