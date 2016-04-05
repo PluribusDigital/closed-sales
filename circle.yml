@@ -11,7 +11,11 @@ dependencies:
     - echo "skipping dependencies temporarily"
 test:
   override:
-   - echo "skipping tests temporarily"
+    - echo "skipping tests temporarily"
+
+database:
+  override:
+    - echo "skipping database temporarily"
 deployment:
   demo:
     branch: master
