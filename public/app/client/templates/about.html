@@ -3,18 +3,26 @@ name: about
 url: /about
 ---
 
-<h1>About the Closed Sales Prototype</h1>
+<div class="grid-content">
+    <div class="grid-block">
 
-<p>This prototype is a remake of the FDIC Closed Sales application, the current version of which is located at: <a href="https://sales.fdic.gov/closedsales/LoanSales.asp">https://sales.fdic.gov/closedsales/LoanSales.asp</a>. Our goals with the prototype are to demonstrate a better user experience, and to open up the underlying data.</p>
+      <div class="row">
+        <div class="column large-12">
+          <h1>About the Closed Sales Prototype</h1>
+          <p>This prototype is a remake of the FDIC Closed Sales application, the current version of which is located at: <a href="https://sales.fdic.gov/closedsales/LoanSales.asp">https://sales.fdic.gov/closedsales/LoanSales.asp</a>. Our goals with the prototype are to demonstrate a better user experience, and to open up the underlying data.</p>
+          <h2>Open Data</h2>
+          <p>The current system makes data available via a web interface. This is a great start, but it is difficult to export the data for analysis (e.g. in Excel) or use in another application. For the Closed Sales prototype, we illustrate the following features:</p>
+          <ul>
+          <li><strong>Bulk downloads</strong> – Users (or other systems) can download bulk datasets in CSV or JSON formats for analysis or building applications using the data.</li>
+          <li><strong>API-first design</strong> – The user interface is built on top of an API. The same API can be used by third-party applications to make use of the data, including the same sorts of filter and sort features incorporated into the UI.</li>
+          <li><strong>Developer documentation</strong> – We provide interactive developer documentation, making it easy for developers to understand the API, and to build/test queries against it.</li>
+          </ul>
+          <h2>User Experience</h2>
+          <p>The user experience is streamlined. Instead of two screens - a search form and results page - we combined the search/filter and results into a single page. Users get instant access to information, and then can refine filters and see results instantly.</p>
+        </div>
+      </div>
 
-<h2>User Experience</h2>
-<p>The user experience is streamlined. Instead of two screens - a search form and results page - we combined the search/filter and results into a single page. Users get instant access to information, and then can refine filters and see results instantly.</p>
-
-<h2>Open Data</h2>
-<p>The current system makes data available via a web interface. This is a great start, but it is difficult to export the data for analysis (e.g. in Excel) or use in another application. For the Closed Sales prototype, we illustrate the following features:</p>
-<li><strong>Bulk downloads</strong> – Users (or other systems) can download bulk datasets in CSV or JSON formats for analysis or building applications using the data.</li>
-<li><strong>API-first design</strong> – The user interface is built on top of an API. The same API can be used by third-party applications to make use of the data, including the same sorts of filter and sort features incorporated into the UI.</li>
-<li><strong>Developer documentation</strong> – We provide interactive developer documentation, making it easy for developers to understand the API, and to build/test queries against it.</li>
 
 
-
+  </div>
+</div>
