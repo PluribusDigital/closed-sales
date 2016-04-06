@@ -3,8 +3,6 @@ postgres:
   image: postgres
   ports:
   - "5432:5432"
-  volumes:
-   - /var/lib/postgresql/data:/var/lib/postgresql/data
 api:
   env_file: /home/vagrant/.env
   build: .
