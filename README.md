@@ -69,3 +69,11 @@ Changes made to the `public/app/client` directory should automatically be detect
 * Test read
 * Test read only (not delete/post/patch)
 
+
+## Tests
+
+### Backend API tests (via rspec)
+`rspec`
+
+### Full Stack Acceptance Tests (Cucumber)
+`rake cucumber`
