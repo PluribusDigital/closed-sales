@@ -21,21 +21,24 @@ class Api::V1::RailsonController < ApplicationController
     end
     # String Filter
     if params["filter"] && params["filter"]["string"]
-      fields = params["filter"]["string"].keys.first.split(',')
-      string = params["filter"]["string"].values.first.downcase
-      results = apply_string_filter(results,fields,string)
+      params["filter"]["string"].each do |f|
+        fields,string = f[0].split(','),f[1]
+        results = apply_string_filter(results,fields,string)
+      end
     end
     # Exact Filter
     if params["filter"] && params["filter"]["exact"]
-      field = params["filter"]["exact"].keys.first
-      string = params["filter"]["exact"].values.first
-      results = apply_exact_filter(results,field,string)
+      params["filter"]["exact"].each do |f|
+        field,string = f[0],f[1]
+        results = apply_exact_filter(results,field,string)
+      end
     end
     # Range Filter
     if params["filter"] && params["filter"]["range"]
-      field = params["filter"]["range"].keys.first
-      range = params["filter"]["range"].values.first.split(",")
-      results = apply_range_filter(results,field,range)
+      params["filter"]["range"].each do |f|
+        field,string = f[0],f[1].split(",")
+        results = apply_range_filter(results,field,string)
+      end
     end
     # Pagination
     if params[:page]

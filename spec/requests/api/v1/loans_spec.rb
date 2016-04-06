@@ -3,9 +3,9 @@ require 'spec_helper'
 RSpec.describe "Loans API" do
 
   before :each do 
-    Loan.create(sale_id: "93F11",site_name: "Dallas Field Branch",date_sold: nil,loan_type: "RE Commercial",quality: "Performing",number_of_loans: 42,book_value: 0,sales_price: 0,winning_bidder: "Army National Bank  ",address: "300 KansasFt. Leavenworth, KS 66027")
-    Loan.create(sale_id: "93D23", site_name: "Dallas Field Branch", date_sold: nil, loan_type: "RE Commercial", quality: "Non-Performing", number_of_loans: 2, book_value: 0, sales_price: 0, winning_bidder: "KCL Pacific Corporation  ", address: "136 East South TempleSalt Lake City, UT 84111")
-    Loan.create(sale_id: "93D24",site_name: "Dallas Field Branch",date_sold: nil,loan_type: "Other",quality: "Performing",number_of_loans: 11,book_value: 0,sales_price: 0,winning_bidder: "Bank Midwest, 84111 NA ",address: "1111 Main St, Suite 1600Kansas City, MO 64105")
+    Loan.create(sale_id: "93F11",site_name: "Dallas Field Branch",date_sold: nil,loan_type: "RE Commercial",quality: "Performing",number_of_loans: 42,book_value: 100,sales_price: 0,winning_bidder: "Army National Bank  ",address: "300 KansasFt. Leavenworth, KS 66027")
+    Loan.create(sale_id: "93D23", site_name: "Dallas Field Branch", date_sold: nil, loan_type: "RE Commercial", quality: "Non-Performing", number_of_loans: 2, book_value: 200, sales_price: 0, winning_bidder: "KCL Pacific Corporation  ", address: "136 East South TempleSalt Lake City, UT 84111")
+    Loan.create(sale_id: "93D24",site_name: "Dallas Field Branch",date_sold: nil,loan_type: "Other",quality: "Performing",number_of_loans: 11,book_value: 0,sales_price: 300,winning_bidder: "Bank Midwest, 84111 NA ",address: "1111 Main St, Suite 1600Kansas City, MO 64105")
   end
 
   describe "index" do 
@@ -102,9 +102,19 @@ RSpec.describe "Loans API" do
         expect(json["data"].length).to eq 2
       end
 
+      it "should combine 2 exact matches as an AND" do 
+        get "/api/v1/loans.json?filter[exact][quality]=Performing&filter[exact][loan_type]=Other"
+        expect(json["data"].length).to eq 1
+      end
+
       it "should match a range" do 
         get "/api/v1/loans.json?filter[range][number_of_loans]=0,20"
         expect(json["data"].length).to eq 2
+      end
+
+      it "should combine 2 ranges as an AND" do 
+        get "/api/v1/loans.json?filter[range][number_of_loans]=0,20&filter[range][sales_price]=250,350"
+        expect(json["data"].length).to eq 1
       end
 
       it "should match an alternate range" do 
