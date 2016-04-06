@@ -16,6 +16,8 @@ EB_BUCKET=open-fda
 sed -e "s/<TAG>/$BUILD_TAG/" \
     -e "s/<ORG>/$ORG/" \
     -e "s/<DOCKER_PROJECT>/$DOCKER_PROJECT/" \
+    -e "s/<POSTGRES_USER>/$POSTGRES_USER/" \
+    -e "s/<POSTGRES_PASSWORD>/$POSTGRES_PASSWORD/" \
     < $DOCKERRUN_FILE.template > $DOCKERRUN_FILE
 
 # elastic beanstalk requires application source to be zipped
