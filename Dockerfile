@@ -34,6 +34,9 @@ RUN npm install gulp --global
 # copy over the rest of the files
 COPY . $HOME
 
+# Now that everything is installed, make it available to everyone
+RUN chmod -R 0777 $HOME
+
 WORKDIR $HOME
 EXPOSE 3000
 CMD ["./run.sh"]
