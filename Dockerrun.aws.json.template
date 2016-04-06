@@ -6,6 +6,18 @@
   },
   "containerDefinitions": [
     {
+      "name": "db",
+      "image": "postgres",
+      "essential": true,
+      "memory": 1000,
+      "portMappings": [
+        {
+          "hostPort": 5432,
+          "containerPort": 5432
+        }
+      ]
+    },
+    {
       "name": "<DOCKER_PROJECT>",
       "image": "<ORG>/<DOCKER_PROJECT>:<TAG>",
       "essential": true,
@@ -13,8 +25,11 @@
       "portMappings": [
         {
           "hostPort": 80,
-          "containerPort": 8000
+          "containerPort": 3000
         }
+	  ],
+      "links": [
+        "db"
       ]
     }
   ]

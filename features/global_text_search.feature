@@ -11,7 +11,7 @@ Feature: Global Text Search
     Then I should see text 'Showing 1 to 5 of 5 entries'
 
   @javascript
-  Scenario: Match a loan type
+  Scenario: Match a sale id
     Given I am on the 'home' page
-    When I fill in 'Other' for 'searchText' 
+    When I fill in '94CM' for 'searchText' 
     Then I should see text 'Showing 1 to 3 of 3 entries'
