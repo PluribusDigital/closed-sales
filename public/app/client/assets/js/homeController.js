@@ -24,7 +24,7 @@
 
         $scope.loading = true;
         $scope.showPagination = true;
-        $scope.showAdvancedSearch = true;
+        $scope.showAdvancedSearch = false;
 
         /************************************************************************************************
         * Data Model Methods
@@ -64,7 +64,7 @@
         }
 
         /************************************************************************************************
-         * Pagination Members
+         * View-bound Members
          */
 
         $scope.refresh = function () {
@@ -86,6 +86,11 @@
                 $scope.params.order_by = orderBy;
             $scope.refresh();
         }
+
+        $scope.resetFilter = function () {
+            $scope.params = LoanProxyService.defaultParams();
+            $scope.refresh();
+        };
 
         $scope.cellAlign = function (column) {
             return ("align" in column) ? column.align : "left";

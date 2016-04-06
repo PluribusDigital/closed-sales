@@ -16,25 +16,31 @@ controller: HomeController
         </div>
         <div class="grid-block align-right v-align">
             <a class="small button" style="margin: 0px;" ng-click="showAdvancedSearch = !showAdvancedSearch">
-                <img zf-iconic="" icon="cog" size="small" class="iconic-color-secondary">
-                <span>Advanced Search</span>
+                <span>Advanced Search&nbsp;</span>
+                <img ng-hide="showAdvancedSearch" zf-iconic="" icon="chevron" size="small" data-direction="right" class="iconic-color-secondary">
+                <img ng-show="showAdvancedSearch" zf-iconic="" icon="chevron" size="small" data-direction="bottom" class="iconic-color-secondary">
             </a>
         </div>
     </div>
-    <div class="grid-block" ng-show="showAdvancedSearch">
-        <div class="small-12 medium-6 grid-content">
+    <div class="grid-block" ng-show="showAdvancedSearch" style="background: #ddd; padding-top: 5px;">
+        <div class="small-12 medium-5 grid-content">
             <label>Quality</label>
             <select name="quality" ng-model="params.quality" ng-change="refresh()">
                 <option value="">All Values</option>
                 <option ng-repeat="v in ranges['quality'].valid_values | orderBy" value="{{v}}">{{v}}</option>
             </select>
         </div>
-        <div class="small-12 medium-6 grid-content">
+        <div class="small-12 medium-5 grid-content">
             <label>Loan Type</label>
             <select name="loan_type" ng-model="params.loan_type" ng-change="refresh()">
                 <option value="">All Values</option>
                 <option ng-repeat="v in ranges['loan_type'].valid_values | orderBy" value="{{v}}">{{v}}</option>
             </select>
+        </div>
+        <div class="small-12 medium-2 grid-content v-align">
+            <div class="grid-block align-right">
+                <a class="warning button" style="margin: 0px;" ng-click="resetFilter()">Reset Filter</a>
+            </div>
         </div>
         <div class="grid-content">
             <label>
