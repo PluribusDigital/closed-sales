@@ -10,6 +10,7 @@ controller: HomeController
             <input type="text" 
                 ng-model="params.search_text" 
                 ng-model-options="{ debounce: 500 }"
+                ng-change="refresh()"
                 placeholder="enter search text"
                 style="margin: 1rem 0 1rem 0;" />
         </div>
@@ -23,20 +24,16 @@ controller: HomeController
     <div class="grid-block" ng-show="showAdvancedSearch">
         <div class="small-12 medium-6 grid-content">
             <label>Quality</label>
-            <select name="quality">
-                <option value="">Breakfast</option>
-                <option value="">Bacon Pancakes</option>
-                <option value="">Mountain Dew</option>
-                <option value="">Scrambled eggs with grilled zucchini, spinach, leeks, roasted tomatoes and mozzarella</option>
+            <select name="quality" ng-model="params.quality" ng-change="refresh()">
+                <option value="">All Values</option>
+                <option ng-repeat="v in ranges['quality'].valid_values | orderBy" value="{{v}}">{{v}}</option>
             </select>
         </div>
         <div class="small-12 medium-6 grid-content">
             <label>Loan Type</label>
-            <select name="loan_type">
-                <option value="">Breakfast</option>
-                <option value="">Bacon Pancakes</option>
-                <option value="">Mountain Dew</option>
-                <option value="">Scrambled eggs with grilled zucchini, spinach, leeks, roasted tomatoes and mozzarella</option>
+            <select name="loan_type" ng-model="params.loan_type" ng-change="refresh()">
+                <option value="">All Values</option>
+                <option ng-repeat="v in ranges['loan_type'].valid_values | orderBy" value="{{v}}">{{v}}</option>
             </select>
         </div>
         <div class="grid-content">
@@ -44,14 +41,20 @@ controller: HomeController
                 Book Value Low
                 <span class="inline-label">
                     <span class="form-label">$</span>
-                    <input type="number">
+                    <input type="number" 
+                        ng-model="params.book_value_low" 
+                        ng-model-options="{ debounce: 500 }" 
+                        ng-change="refresh()">
                 </span>
             </label>
             <label>
                 Book Value High
                 <span class="inline-label">
                     <span class="form-label">$</span>
-                    <input type="number">
+                    <input type="number" 
+                        ng-model="params.book_value_high" 
+                        ng-model-options="{ debounce: 500 }" 
+                        ng-change="refresh()">
                 </span>
             </label>
         </div>
@@ -60,25 +63,37 @@ controller: HomeController
                 Sales Price Low
                 <span class="inline-label">
                     <span class="form-label">$</span>
-                    <input type="number">
+                    <input type="number" 
+                        ng-model="params.sales_price_low" 
+                        ng-model-options="{ debounce: 500 }" 
+                        ng-change="refresh()">
                 </span>
             </label>
             <label>
                 Sales Price High
                 <span class="inline-label">
                     <span class="form-label">$</span>
-                    <input type="number">
+                    <input type="number" 
+                        ng-model="params.sales_price_high" 
+                        ng-model-options="{ debounce: 500 }" 
+                        ng-change="refresh()">
                 </span>
             </label>
         </div>
         <div class="grid-content">
             <label>
                 Date Sold Low
-                <input type="date">
+                <input type="date" 
+                    ng-model="params.date_sold_low" 
+                    ng-model-options="{ debounce: 500 }" 
+                    ng-change="refresh()">
             </label>
             <label>
                 Date Sold High
-                <input type="date">
+                <input type="date" 
+                    ng-model="params.date_sold_high" 
+                    ng-model-options="{ debounce: 500 }" 
+                    ng-change="refresh()">
             </label>
         </div>
     </div>

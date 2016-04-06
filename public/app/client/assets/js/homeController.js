@@ -1,6 +1,6 @@
 ﻿angular.module('closedSales').controller("HomeController",
     function ($scope, LoanProxyService) {
-        $scope.model = []
+        $scope.model = [];
         $scope.columns = [
             { 'name': 'sale_id', 'title': 'Sale Id' },
             { 'name': 'site_name', 'title': 'Site' },
@@ -12,22 +12,27 @@
             { 'name': 'sales_price', 'title': 'Sales Price', "align": 'right' },
             { 'name': 'winning_bidder', 'title': 'Winning Bidder' },
             { 'name': 'address', 'title': 'Address' }
-        ]
+        ];
+        $scope.ranges = {};
 
         /*id, created_at, updated_at */
 
         $scope.params = LoanProxyService.defaultParams();
-        $scope.downloadParams = LoanProxyService.buildDownloadParams($scope.params);
+        $scope.downloadParams = {};
         $scope.offset = 0;
         $scope.lastShown = 0;
 
         $scope.loading = true;
         $scope.showPagination = true;
-        $scope.showAdvancedSearch = false;
+        $scope.showAdvancedSearch = true;
 
         /************************************************************************************************
         * Data Model Methods
         */
+
+        $scope.onMetadataLoaded = function (ranges) {
+            $scope.ranges = ranges;
+        }
 
         $scope.onModelLoaded = function (data) {
             $scope.model = [];
@@ -63,6 +68,13 @@
          */
 
         $scope.refresh = function () {
+            // Remove null/empty fields
+            var keys = Object.keys($scope.params);
+            keys.forEach(function (k) {
+                if (!$scope.params[k])
+                    delete $scope.params[k];
+            });
+
             $scope.loading = true;
             LoanProxyService.search($scope.params).then($scope.onModelLoaded);
         }
@@ -82,9 +94,7 @@
         /************************************************************************************************
          * Initialize
          */
-        $scope.$watch('params.search_text', function (term) {
-            $scope.refresh();
-        });
 
+        LoanProxyService.metadata().then($scope.onMetadataLoaded);
         $scope.refresh();
     });
