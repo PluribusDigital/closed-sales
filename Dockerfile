@@ -9,8 +9,8 @@ ENV STATIC $HOME/public/app
 # from :onbuild
 RUN mkdir -p $HOME
 WORKDIR $HOME
-COPY Gemfile $HOME
-COPY Gemfile.lock $HOME
+COPY Gemfile $HOME/
+COPY Gemfile.lock $HOME/
 RUN bundle install
 
 RUN mkdir -p $STATIC
