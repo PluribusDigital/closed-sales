@@ -15,6 +15,16 @@
           "hostPort": 5432,
           "containerPort": 5432
         }
+	  ],
+      "environment": [
+        {
+          "name": "POSTGRES_USER",
+          "value": "<POSTGRES_USER>"
+        },
+        {
+          "name": "POSTGRES_PASSWORD",
+          "value": "<POSTGRES_PASSWORD>"
+        }
       ]
     },
     {
@@ -28,6 +38,20 @@
           "containerPort": 3000
         }
 	  ],
+      "environment": [
+        {
+          "name": "POSTGRES_HOST",
+          "value": "db"
+        },
+        {
+          "name": "POSTGRES_USER",
+          "value": "<POSTGRES_USER>"
+        },
+        {
+          "name": "POSTGRES_PASSWORD",
+          "value": "<POSTGRES_PASSWORD>"
+        }
+      ],
       "links": [
         "db"
       ]
