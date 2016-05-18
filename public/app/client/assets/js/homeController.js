@@ -2,16 +2,16 @@
     function ($scope, LoanProxyService) {
         $scope.model = [];
         $scope.columns = [
-            { 'name': 'sale_id', 'title': 'Sale Id' },
-            { 'name': 'site_name', 'title': 'Site' },
-            { 'name': 'date_sold', 'title': 'Date Sold', "align": 'right' },
-            { 'name': 'loan_type', 'title': 'Loan Type' },
-            { 'name': 'quality', 'title': 'Quality' },
-            { 'name': 'number_of_loans', 'title': 'No. of Loans', "align": 'right' },
-            { 'name': 'book_value', 'title': 'Book Value', "align": 'right' },
-            { 'name': 'sales_price', 'title': 'Sales Price', "align": 'right' },
-            { 'name': 'winning_bidder', 'title': 'Winning Bidder' },
-            { 'name': 'address', 'title': 'Address' }
+            { 'name': 'sale_id', 'title': 'Sale Id', 'class':'' },
+            { 'name': 'site_name', 'title': 'Site', 'class':'' },
+            { 'name': 'date_sold', 'title': 'Date Sold', "align": 'right', 'class':'' },
+            { 'name': 'loan_type', 'title': 'Loan Type', 'class':'' },
+            { 'name': 'quality', 'title': 'Quality', 'class':'' },
+            { 'name': 'number_of_loans', 'title': 'No. of Loans', "align": 'right', 'class':'' },
+            { 'name': 'book_value', 'title': 'Book Value', "align": 'right', 'class':'' },
+            { 'name': 'sales_price', 'title': 'Sales Price', "align": 'right', 'class':'' },
+            { 'name': 'winning_bidder', 'title': 'Winning Bidder', 'class':'' },
+            { 'name': 'address', 'title': 'Address', 'class':'' }
         ];
         $scope.ranges = {};
 

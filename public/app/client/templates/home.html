@@ -112,7 +112,8 @@ controller: HomeController
                 max-size="10"
                 boundary-links="true"
                 ng-change="refresh()"
-                ng-show="showPagination">
+                ng-show="showPagination"
+                class="show-for-medium">
             </div>
         </div>
         <div class="grid-block align-right shrink v-align">
@@ -128,7 +129,7 @@ controller: HomeController
         <table role="grid" style="overflow-x: auto;">
             <thead>
                 <tr>
-                    <th ng-repeat="col in columns">
+                    <th ng-repeat="col in columns" ng-class="col['class']">
                         <div ng-click="setOrder(col['name'])">
                             <span>{{ col['title'] }}</span>
                             <span ng-if="col['name'] === params.order_by">&#x2191</span>
@@ -139,7 +140,8 @@ controller: HomeController
             </thead>
             <tbody>
                 <tr ng-repeat="row in model">
-                    <td ng-repeat="col in columns" ng-switch="col['name']" align="{{cellAlign(col)}}">
+                    <td ng-repeat="col in columns" ng-switch="col['name']" 
+                        align="{{cellAlign(col)}}" ng-class="col['class']">
                         <span ng-switch-when="date_sold">
                             <span>{{row['date_sold'] | date: 'M/d/yyyy'}}</span>
                         </span>

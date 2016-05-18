@@ -14,8 +14,8 @@ table td {
   padding: 5px;
   overflow: visible;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 4rem;
+  white-space: wrap;
+  width: auto;
 }
 
 /* The out of the box Foundation does _not_ match the demo */
