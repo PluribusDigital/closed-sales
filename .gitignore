@@ -16,6 +16,8 @@
 !/log/.keep
 /tmp
 .orig
+# OS files
+*.DS_Store
 
 # Vagrant & Docker
 .cache/
