@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
+# CloudFoundry, enable auto-configuration of database connections
+gem "cf-autoconfig"
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18.2'
 # Use SCSS for stylesheets
