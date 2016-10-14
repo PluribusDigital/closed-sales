@@ -7,4 +7,4 @@ applications:
   path: .
   command: bundle exec rake db:migrate && bundle exec rails s -p $PORT
   services:
-    - rails-postgres
+    - closed-sales-postgres
