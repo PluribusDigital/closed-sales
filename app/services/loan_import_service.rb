@@ -12,6 +12,12 @@ class LoanImportService
     object = JSON.parse(get_file)
     Loan.transaction do 
       object.each do |r|
+        # massage the non-string fields
+        r["date_sold"] = parse_date(r["date_sold"])
+        r["number_of_loans"] = parse_int(r["number_of_loans"])
+        r["book_value"] = parse_int(r["book_value"])
+        r["sales_price"] = parse_int(r["sales_price"])
+        # create the record
         Loan.create r
       end
     end
@@ -25,6 +31,16 @@ class LoanImportService
       http.request(req)
     }
     return res.body
+  end
+
+  def self.parse_date(string)
+    mm,dd,yyyy = string.split('/')
+    return "#{yyyy}-#{mm}-#{dd}".to_date
+  end
+
+  def self.parse_int(string)
+    string = string.gsub('$','').gsub(',','')
+    return string.to_i
   end
 
 end
