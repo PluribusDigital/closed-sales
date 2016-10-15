@@ -16,11 +16,11 @@ controller: HomeController
                 style="margin: 1rem 0 1rem 0;" />
         </div>
         <div class="grid-block align-right v-align">
-            <a class="small button" style="margin: 0px;" ng-click="showAdvancedSearch = !showAdvancedSearch">
-                <span>Advanced Search&nbsp;</span>
+            <button class="small button" style="margin: 0px;" ng-click="showAdvancedSearch = !showAdvancedSearch">
+                <span>Filter&nbsp;</span>
                 <img ng-hide="showAdvancedSearch" zf-iconic="" icon="chevron" size="small" data-direction="right" class="iconic-color-secondary">
                 <img ng-show="showAdvancedSearch" zf-iconic="" icon="chevron" size="small" data-direction="bottom" class="iconic-color-secondary">
-            </a>
+            </button>
         </div>
     </div>
     <div class="grid-block" ng-show="showAdvancedSearch" style="background: #ddd; padding-top: 5px;">

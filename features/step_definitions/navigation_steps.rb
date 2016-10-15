@@ -5,14 +5,22 @@ Given /^I am on the '([^"]*)' page$/ do |page|
   visit path_for[page]
 end
 
-When /^I fill in '([^"]*)' for '([^"]*)'$/ do |value,field|
+Given(/^I select the 'Filter' button$/) do
+  click_button 'Filter'
+end
+
+When /^I fill in ([^"]*) for '([^"]*)'$/ do |value,field|
   fill_in(field,:with => value)
 end
 
-When(/^I fill in 'Duluth, MN' in the 'enter search text' field$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+When /^I select ([^"]*) for '([^"]*)'$/ do |value,field|
+  page.select value, from:field if value.length > 0
 end
 
 Then /^I should see text '([^"]*)'$/ do |text|
   expect(page).to have_content text
+end
+
+Then /^The result set should have ([^"]*) records$/ do |number|
+  expect(page).to have_content "Showing 1 to #{number} of #{number} entries"
 end
