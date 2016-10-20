@@ -1,0 +1,12 @@
+language: ruby
+deploy:
+  edge: true
+  provider: cloudfoundry
+  api: https://api.run.pivotal.io
+  username: bmorris@stsiinc.com
+  password:
+    secure: [SECURE_CF_PASSWORD]
+  organization: STSI
+  space: development
+  on:
+    repo: STSILABS/closed-sales
